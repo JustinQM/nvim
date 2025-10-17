@@ -75,3 +75,6 @@ vim.keymap.set("n", "<leader>h", ":Pick help<CR>")
 --plugins: typst preview
 require("typst-preview").setup()
 vim.keymap.set("n", "<leader>p", ":TypstPreview<CR>")
+
+--plugins: fugitive
+vim.keymap.set("n", "<leader>g", ":G<CR>")
