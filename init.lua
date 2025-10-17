@@ -71,6 +71,7 @@ vim.cmd [[colorscheme moonfly]]
 require('mini.pick').setup()
 vim.keymap.set("n", "<leader>f", ":Pick files<CR>")
 vim.keymap.set("n", "<leader>h", ":Pick help<CR>")
+vim.keymap.set("n", "<leader>b", ":Pick buffers<CR>")
 
 --plugins: typst preview
 require("typst-preview").setup()
