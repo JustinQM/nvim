@@ -43,7 +43,7 @@ vim.keymap.set("n", "<leader>tt", function()
 end)
 
 -- lsp
-vim.lsp.enable({"lua_ls", "clangd", "bashls", "tinymist"})
+vim.lsp.enable({"lua_ls", "clangd", "bashls", "tinymist","gdscript"})
 
 -- plugins
 vim.pack.add({
@@ -53,6 +53,7 @@ vim.pack.add({
     { src = "https://github.com/bluz71/vim-moonfly-colors" },
     { src = "https://github.com/nvim-mini/mini.pick" },
     { src = "https://github.com/chomosuke/typst-preview.nvim.git" },
+    { src = "https://github.com/marekmaskarinec/vim-umka.git" },
 })
 
 -- plugins: oil
