@@ -36,6 +36,9 @@ vim.keymap.set("n", "<leader>cc", ":cclose<CR>")
 vim.keymap.set("n", "<leader>cn", ":cnext<CR>")
 vim.keymap.set("n", "<leader>cp", ":cprevious<CR>")
 
+-- noh keymap
+vim.keymap.set("n", "<leader>n", ":noh<CR>")
+
 -- tags
 local tags_file_name = ".tags"
 vim.keymap.set("n", "<leader>tt", function()
