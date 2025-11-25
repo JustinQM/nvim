@@ -39,6 +39,9 @@ vim.keymap.set("n", "<leader>cp", ":cprevious<CR>")
 -- noh keymap
 vim.keymap.set("n", "<leader>n", ":noh<CR>")
 
+-- escape terminal mode with ESC
+vim.keymap.set("t", "<ESC>", "<C-\\><C-n>")
+
 -- tags
 local tags_file_name = ".tags"
 vim.keymap.set("n", "<leader>tt", function()
