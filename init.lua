@@ -36,12 +36,25 @@ vim.keymap.set("n", "<leader>cc", ":cclose<CR>")
 vim.keymap.set("n", "<leader>cn", ":cnext<CR>")
 vim.keymap.set("n", "<leader>cp", ":cprevious<CR>")
 
+
 -- noh keymap
 vim.keymap.set("n", "<leader>n", ":noh<CR>")
 
--- escape terminal mode with ESC
+-- terminal mode binds
 vim.keymap.set("t", "<ESC>", "<C-\\><C-n>")
+vim.keymap.set("t", "jk", "<C-\\><C-n>")
+require("terminal").setup({ default_height = 10 })
+
+--makeprg and make
+vim.keymap.set("n", "<leader>M", function()
+  local cur = vim.o.makeprg
+  local inp = vim.fn.input("makeprg: ", cur)
+  if inp ~= "" then
+    vim.o.makeprg = inp
+    print("makeprg = " .. vim.o.makeprg)
+  end
 end)
+
 
 -- lsp
 vim.lsp.enable({"lua_ls", "clangd", "bashls", "tinymist","gdscript"})
