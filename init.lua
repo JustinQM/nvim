@@ -41,11 +41,6 @@ vim.keymap.set("n", "<leader>n", ":noh<CR>")
 
 -- escape terminal mode with ESC
 vim.keymap.set("t", "<ESC>", "<C-\\><C-n>")
-
--- tags
-local tags_file_name = ".tags"
-vim.keymap.set("n", "<leader>tt", function()
-    vim.system({"ctags", "-R", "-f", tags_file_name, "."}, { text = true }, on_exit)
 end)
 
 -- lsp
