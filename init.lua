@@ -19,8 +19,9 @@ vim.opt.smartcase = true
 vim.opt.hlsearch = true
 vim.opt.incsearch = true
 
-vim.opt.wildmode = "longest","list","full"
 vim.opt.wildmenu = true
+vim.opt.wildmode = "longest:full","list:full"
+
 
 vim.opt.wrap = false
 
@@ -66,8 +67,6 @@ vim.pack.add({
     { src = "https://github.com/tpope/vim-fugitive" },
     { src = "https://github.com/bluz71/vim-moonfly-colors" },
     { src = "https://github.com/nvim-mini/mini.pick" },
-    { src = "https://github.com/chomosuke/typst-preview.nvim.git" },
-    { src = "https://github.com/marekmaskarinec/vim-umka.git" },
 })
 
 -- plugins: oil
@@ -88,9 +87,30 @@ vim.keymap.set("n", "<leader>f", ":Pick files<CR>")
 vim.keymap.set("n", "<leader>h", ":Pick help<CR>")
 vim.keymap.set("n", "<leader>b", ":Pick buffers<CR>")
 
---plugins: typst preview
-require("typst-preview").setup()
-vim.keymap.set("n", "<leader>p", ":TypstPreview<CR>")
-
 --plugins: fugitive
 vim.keymap.set("n", "<leader>g", ":Gedit :<CR>")
+
+-- neovide
+if vim.g.neovide then
+  vim.g.neovide_cursor_animation_length = 0
+  vim.g.neovide_cursor_short_animation_length = 0  -- optional, but consistent
+  vim.g.neovide_cursor_vfx_mode = ""               -- disable particles (optional)
+end
+
+-- “start blinking after 700ms idle”
+vim.opt.guicursor =
+  "n-v-c:block-blinkwait1000-blinkon500-blinkoff500," ..
+  "i-ci-ve:ver25-blinkwait700-blinkon500-blinkoff500," ..
+  "r-cr:hor20"
+
+if vim.g.neovide then
+  vim.g.neovide_cursor_smooth_blink = true
+end
+
+if vim.g.neovide then
+  vim.keymap.set('v', '<C-c>', '"+y')
+  vim.keymap.set('n', '<C-v>', '"+P')
+  vim.keymap.set('v', '<C-v>', '"+P')
+  vim.keymap.set('c', '<C-v>', '<C-R>+')
+  vim.keymap.set('i', '<C-v>', '<ESC>l"+Pli')
+end
