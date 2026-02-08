@@ -6,6 +6,8 @@ local term = { buf = nil, win = nil }
 local function win_valid(w) return w and vim.api.nvim_win_is_valid(w) end
 local function buf_valid(b) return b and vim.api.nvim_buf_is_valid(b) end
 
+local errorformat = require("errorformat")
+
 function M.toggle_bottom_term(height)
   height = height or 10
   if win_valid(term.win) then
@@ -85,6 +87,11 @@ end
 
 function M.make_term_to_qf(height)
   height = height or 10
+
+  local srcbuf = vim.api.nvim_get_current_buf()
+  local srcft  = vim.bo[srcbuf].filetype
+  local efm    = errorformat.efm_for_ft(srcft)
+
   local cmd = vim.fn.expandcmd(vim.o.makeprg ~= "" and vim.o.makeprg or "make")
 
   vim.cmd("botright " .. height .. "new")
@@ -103,7 +110,10 @@ function M.make_term_to_qf(height)
           lines[i] = s:gsub("\r", ""):gsub("\27%[[0-9;]*[mK]", "")
         end
 
-        vim.fn.setqflist({}, "r", { lines = lines })
+        local opts = { lines = lines, title = cmd }
+        if efm then opts.efm = efm end
+
+        vim.fn.setqflist({}, "r", opts)
 
         local vcount = qf_valid_count()
 

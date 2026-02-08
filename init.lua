@@ -58,6 +58,23 @@ end)
 
 
 -- lsp
+
+vim.diagnostic.config({
+  virtual_text = false,      -- disable inline diagnostics
+  signs = false,             -- you already have signcolumn = "no", but this avoids sign placement entirely
+  underline = false,          -- keep underline if you still want a subtle indicator (set false to remove)
+  update_in_insert = false,  -- don't update diagnostics while typing
+  severity_sort = true,
+  float = {
+    border = "rounded",
+    source = "if_many",
+  },
+})
+
+vim.keymap.set("n", "<leader>dd", vim.diagnostic.open_float, { desc = "Line diagnostics" })
+vim.keymap.set("n", "<leader>dn", vim.diagnostic.goto_next, { desc = "Next diagnostic" })
+vim.keymap.set("n", "<leader>dp", vim.diagnostic.goto_prev, { desc = "Prev diagnostic" })
+
 vim.lsp.config('lua_ls', require('lsp.lua_ls'))
 vim.lsp.config('clangd', require('lsp.clangd'))
 vim.lsp.config('bashls', require('lsp.bashls'))
