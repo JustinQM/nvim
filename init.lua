@@ -20,7 +20,7 @@ vim.opt.hlsearch = true
 vim.opt.incsearch = true
 
 vim.opt.wildmenu = true
-vim.opt.wildmode = "longest:full","list:full"
+vim.opt.wildmode = {"longest:full","list:full"}
 
 
 vim.opt.wrap = false
@@ -58,7 +58,13 @@ end)
 
 
 -- lsp
-vim.lsp.enable({"lua_ls", "clangd", "bashls", "tinymist","gdscript"})
+vim.lsp.config('lua_ls', require('lsp.lua_ls'))
+vim.lsp.config('clangd', require('lsp.clangd'))
+vim.lsp.config('bashls', require('lsp.bashls'))
+vim.lsp.config('tinymist', require('lsp.tinymist'))
+vim.lsp.config('gdscript', require('lsp.gdscript'))
+vim.lsp.config('ols', require('lsp.ols'))
+vim.lsp.enable({"lua_ls", "clangd", "bashls", "tinymist","gdscript", "ols"})
 
 -- plugins
 vim.pack.add({
@@ -67,6 +73,7 @@ vim.pack.add({
     { src = "https://github.com/tpope/vim-fugitive" },
     { src = "https://github.com/bluz71/vim-moonfly-colors" },
     { src = "https://github.com/nvim-mini/mini.pick" },
+    { src = "https://github.com/Tetralux/odin.vim" },
 })
 
 -- plugins: oil
@@ -93,8 +100,8 @@ vim.keymap.set("n", "<leader>g", ":Gedit :<CR>")
 -- neovide
 if vim.g.neovide then
   vim.g.neovide_cursor_animation_length = 0
-  vim.g.neovide_cursor_short_animation_length = 0  -- optional, but consistent
-  vim.g.neovide_cursor_vfx_mode = ""               -- disable particles (optional)
+  vim.g.neovide_cursor_short_animation_length = 0
+  vim.g.neovide_cursor_vfx_mode = ""
 end
 
 -- “start blinking after 700ms idle”

@@ -4,7 +4,7 @@
 ---
 --- `Odin Language Server`.
 
-local util = require 'lspconfig.util'
+local util = require 'lsp.util'
 
 ---@type vim.lsp.Config
 return {
