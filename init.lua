@@ -59,6 +59,8 @@ end)
 
 -- lsp
 
+
+--     diaganostics
 vim.diagnostic.config({
   virtual_text = false,      -- disable inline diagnostics
   signs = false,             -- you already have signcolumn = "no", but this avoids sign placement entirely
@@ -71,16 +73,61 @@ vim.diagnostic.config({
   },
 })
 
-vim.keymap.set("n", "<leader>dd", vim.diagnostic.open_float, { desc = "Line diagnostics" })
-vim.keymap.set("n", "<leader>dn", vim.diagnostic.goto_next, { desc = "Next diagnostic" })
-vim.keymap.set("n", "<leader>dp", vim.diagnostic.goto_prev, { desc = "Prev diagnostic" })
 
-vim.lsp.config('lua_ls', require('lsp.lua_ls'))
-vim.lsp.config('clangd', require('lsp.clangd'))
-vim.lsp.config('bashls', require('lsp.bashls'))
-vim.lsp.config('tinymist', require('lsp.tinymist'))
-vim.lsp.config('gdscript', require('lsp.gdscript'))
-vim.lsp.config('ols', require('lsp.ols'))
+--    capabilities (for snippets)
+local caps = vim.lsp.protocol.make_client_capabilities()
+caps.textDocument.completion.completionItem.snippetSupport = true
+
+local function with_caps(cfg)
+  cfg = cfg or {}
+  cfg.capabilities = vim.tbl_deep_extend("force", {}, cfg.capabilities or {}, caps)
+  return cfg
+end
+
+vim.opt.completeopt = { "menu", "menuone", "noinsert" }
+vim.api.nvim_create_autocmd("LspAttach", {
+  desc = "Enable vim.lsp.completion (snippets, additional edits)",
+  callback = function(ev)
+    local client_id = ev.data and ev.data.client_id
+    if not client_id then return end
+    local client = vim.lsp.get_client_by_id(client_id)
+    if not client then return end
+
+    if client:supports_method("textDocument/completion") then
+      vim.lsp.completion.enable(true, client_id, ev.buf, { autotrigger = false })
+    end
+  end,
+})
+
+vim.lsp.commands = vim.lsp.commands or {}
+vim.lsp.commands["editor.action.triggerParameterHints"] = function()
+  vim.lsp.buf.signature_help()
+end
+
+vim.keymap.set({ "i", "s" }, "<Tab>", function()
+  if vim.snippet and vim.snippet.active({ direction = 1 }) then
+    vim.snippet.jump(1)
+    return ""
+  end
+  return "\t"
+end, { expr = true, silent = true })
+
+vim.keymap.set({ "i", "s" }, "<S-Tab>", function()
+  if vim.snippet and vim.snippet.active({ direction = -1 }) then
+    vim.snippet.jump(-1)
+    return ""
+  end
+  return "<S-Tab>"
+end, { expr = true, silent = true })
+
+--     enable configs and start lsp
+
+vim.lsp.config('lua_ls', with_caps(require('lsp.lua_ls')))
+vim.lsp.config('clangd', with_caps(require('lsp.clangd')))
+vim.lsp.config('bashls', with_caps(require('lsp.bashls')))
+vim.lsp.config('tinymist', with_caps(require('lsp.tinymist')))
+vim.lsp.config('gdscript', with_caps(require('lsp.gdscript')))
+vim.lsp.config('ols', with_caps(require('lsp.ols')))
 vim.lsp.enable({"lua_ls", "clangd", "bashls", "tinymist","gdscript", "ols"})
 
 -- plugins

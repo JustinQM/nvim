@@ -1,1 +1,1 @@
-vim.bo.makeprg = "odin build ."
+vim.bo.makeprg = "odin run ."
