@@ -138,6 +138,7 @@ vim.pack.add({
     { src = "https://github.com/bluz71/vim-moonfly-colors" },
     { src = "https://github.com/nvim-mini/mini.pick" },
     { src = "https://github.com/Tetralux/odin.vim" },
+    { src = "https://github.com/nicolasgb/jj.nvim" },
 })
 
 -- plugins: oil
@@ -148,6 +149,55 @@ vim.keymap.set("n", "<leader>e", ":Oil<CR>")
 
 -- plugins: mason
 require "mason".setup()
+
+-- plugins: jj
+require "jj".setup({})
+
+vim.keymap.set("n", "<leader>j", function()
+  require("jj.cmd").log()
+end, { desc = "JJ log" })
+
+do
+  local terminal = require("jj.ui.terminal")
+  local core_buffer = require("jj.core.buffer")
+
+  local orig_run = terminal.run
+
+  terminal.run = function(cmd, keymaps)
+    local is_log = false
+    if type(cmd) == "string" then
+      is_log = cmd:match("^%s*jj%s+log([%s$])") ~= nil
+    elseif type(cmd) == "table" then
+      is_log = (cmd[1] == "jj" and cmd[2] == "log")
+    end
+
+    if not is_log then
+      return orig_run(cmd, keymaps)
+    end
+
+    local orig_create = core_buffer.create
+    core_buffer.create = function(opts)
+      if opts and opts.split == "horizontal" then
+        opts = vim.tbl_deep_extend("force", opts, { split = "current" })
+        opts.size = nil
+        opts.direction = nil
+      end
+      return orig_create(opts)
+    end
+
+    local ok, res = pcall(orig_run, cmd, keymaps)
+    core_buffer.create = orig_create
+
+    if not ok then
+      vim.schedule(function()
+        vim.notify("jj.nvim log patch failed: " .. tostring(res), vim.log.levels.ERROR)
+      end)
+      return
+    end
+    return res
+  end
+end
+
 
 --plugins: colors
 vim.cmd [[colorscheme moonfly]]
