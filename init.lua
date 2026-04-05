@@ -122,13 +122,17 @@ end, { expr = true, silent = true })
 
 --     enable configs and start lsp
 
+vim.g.vim_svelte_plugin_use_typescript = 1
+
 vim.lsp.config('lua_ls', with_caps(require('lsp.lua_ls')))
 vim.lsp.config('clangd', with_caps(require('lsp.clangd')))
 vim.lsp.config('bashls', with_caps(require('lsp.bashls')))
 vim.lsp.config('tinymist', with_caps(require('lsp.tinymist')))
 vim.lsp.config('gdscript', with_caps(require('lsp.gdscript')))
 vim.lsp.config('ols', with_caps(require('lsp.ols')))
-vim.lsp.enable({"lua_ls", "clangd", "bashls", "tinymist","gdscript", "ols"})
+vim.lsp.config('svelte', with_caps(require('lsp.svelte')))
+vim.lsp.config('ts_ls', with_caps(require('lsp.ts_ls')))
+vim.lsp.enable({"lua_ls", "clangd", "bashls", "tinymist", "gdscript", "ols", "svelte", "ts_ls"})
 
 -- plugins
 vim.pack.add({
@@ -140,6 +144,7 @@ vim.pack.add({
     { src = "https://github.com/Tetralux/odin.vim" },
     { src = "https://github.com/nicolasgb/jj.nvim" },
     { src = "https://github.com/rafikdraoui/jj-diffconflicts" },
+    { src = "https://github.com/leafOfTree/vim-svelte-plugin" },
 })
 
 -- plugins: oil
@@ -236,3 +241,11 @@ if vim.g.neovide then
   vim.keymap.set('c', '<C-v>', '<C-R>+')
   vim.keymap.set('i', '<C-v>', '<ESC>l"+Pli')
 end
+
+-- "svelte"
+
+vim.filetype.add({
+  extension = {
+    svelte = "svelte",
+  },
+})
