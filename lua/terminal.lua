@@ -1,4 +1,3 @@
--- jst/terminal.lua
 local M = {}
 local vim = vim
 
@@ -107,10 +106,19 @@ function M.make_term_to_qf(height)
       vim.schedule(function()
         local lines = vim.api.nvim_buf_get_lines(termbuf, 0, -1, false)
         for i, s in ipairs(lines) do
-          lines[i] = s:gsub("\r", ""):gsub("\27%[[0-9;]*[mK]", "")
+          lines[i] = s:gsub("\r", ""):gsub("\27%[[0-9;]*[mK]", ""):gsub("%z", "")
         end
 
-        local opts = { lines = lines, title = cmd }
+        local joined = {}
+        for _, line in ipairs(lines) do
+            if line:match("^%d") then
+                table.insert(joined, line)
+            elseif #joined > 0 and line ~= "" then
+                joined[#joined] = joined[#joined] .. line
+            end
+        end
+
+        local opts = { lines = joined, title = cmd }
         if efm then opts.efm = efm end
 
         vim.fn.setqflist({}, "r", opts)

@@ -14,7 +14,14 @@ local EFM = {
     -- ignore everything else
     "%-G%.%#",
   }, ","),
+    svelte = table.concat({
+        "%*[0-9] %tRROR \"%f\" %l:%c \"%m\"",
+        "%*[0-9] %tarning \"%f\" %l:%c \"%m\"",
+        "%-G%.%#",
+    }, ","),
 }
+
+EFM.typescript = EFM.svelte
 
 ---Return the errorformat string for a given filetype, or nil if unknown.
 ---@param ft string
