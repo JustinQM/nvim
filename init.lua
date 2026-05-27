@@ -22,9 +22,6 @@ vim.opt.incsearch = true
 vim.opt.wildmenu = true
 vim.opt.wildmode = {"longest:full","list:full"}
 
-
-vim.opt.wrap = false
-
 vim.opt.hidden = true
 
 vim.opt.winborder = "rounded"
@@ -145,6 +142,7 @@ vim.pack.add({
     { src = "https://github.com/nicolasgb/jj.nvim" },
     { src = "https://github.com/rafikdraoui/jj-diffconflicts" },
     { src = "https://github.com/leafOfTree/vim-svelte-plugin" },
+    { src = "https://github.com/vimwiki/vimwiki" },
 })
 
 -- plugins: oil
@@ -249,3 +247,27 @@ vim.filetype.add({
     svelte = "svelte",
   },
 })
+
+-- "vimwiki"
+vim.g.vimwiki_list = 
+{
+  {
+    path = "~/Documents/wiki",
+    syntax = "markdown",
+    ext = ".md",
+  }
+}
+vim.g.vimwiki_global_ext = 0
+
+-- "word wrapping settings"
+vim.keymap.set({ 'n', 'x' }, 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+vim.keymap.set({ 'n', 'x' }, 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
+vim.opt.wrap = true
+vim.opt.linebreak = true    -- wrap at word boundaries, not mid-word
+vim.opt.breakindent = true  -- wrapped continuation lines preserve indentation
+vim.opt.showbreak = "↪ "   -- optional: visual marker for wrapped lines
+
+-- Also remap 0 and $ to visual line start/end
+vim.keymap.set('n', '0', "v:count == 0 ? 'g0' : '0'", { expr = true })
+vim.keymap.set('n', '$', "v:count == 0 ? 'g$' : '$'", { expr = true })
+vim.keymap.set('n', '^', "v:count == 0 ? 'g^' : '^'", { expr = true })
