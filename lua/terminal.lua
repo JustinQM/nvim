@@ -167,10 +167,16 @@ function M.run_in_term(cmd, height)
             local exit_msg = "\r\n[Process exited " .. code .. "] press <CR> to close\r\n"
             pcall(vim.api.nvim_chan_send, term_chan, exit_msg)
             vim.schedule(function()
-                vim.api.nvim_buf_set_keymap(display_buf, "t", "<CR>",
-                    "<cmd>bd!<CR>", { noremap = true, silent = true })
+                pcall(vim.api.nvim_chan_send, term_chan, "\r\n")
+                vim.api.nvim_feedkeys(
+                    vim.api.nvim_replace_termcodes("<C-\\><C-n>", true, false, true),
+                    "n",
+                    false
+                )
                 vim.api.nvim_buf_set_keymap(display_buf, "n", "<CR>",
-                    "<cmd>bd!<CR>", { noremap = true, silent = true })
+                "<cmd>bd!<CR>", { noremap = true, silent = true })
+                vim.api.nvim_buf_set_keymap(display_buf, "n", "q",
+                "<cmd>bd!<CR>", { noremap = true, silent = true })
             end)
         end,
     })
