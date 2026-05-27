@@ -131,6 +131,53 @@ local function qf_entry_count()
     return n
 end
 
+function M.run_in_term(cmd, height)
+    height = height or 10
+
+    local display_buf = vim.api.nvim_create_buf(false, true)
+    vim.bo[display_buf].buflisted = false
+
+    vim.cmd("botright " .. height .. "split")
+    local display_win = vim.api.nvim_get_current_win()
+    vim.api.nvim_win_set_buf(display_win, display_buf)
+
+    term.buf = display_buf
+    term.win = display_win
+
+    local job_id
+    local term_chan = vim.api.nvim_open_term(display_buf, {
+        on_input = function(_, _, _, data)
+            if job_id and job_id > 0 then
+                pcall(vim.api.nvim_chan_send, job_id, data)
+            end
+        end,
+    })
+
+    job_id = vim.fn.jobstart(cmd, {
+        pty = true,
+        width = vim.api.nvim_win_get_width(display_win),
+        height = height,
+        on_stdout = function(_, data)
+            local chunk = table.concat(data, "\r\n")
+            if chunk ~= "" then
+                pcall(vim.api.nvim_chan_send, term_chan, chunk)
+            end
+        end,
+        on_exit = function(_, code)
+            local exit_msg = "\r\n[Process exited " .. code .. "] press <CR> to close\r\n"
+            pcall(vim.api.nvim_chan_send, term_chan, exit_msg)
+            vim.schedule(function()
+                vim.api.nvim_buf_set_keymap(display_buf, "t", "<CR>",
+                    "<cmd>bd!<CR>", { noremap = true, silent = true })
+                vim.api.nvim_buf_set_keymap(display_buf, "n", "<CR>",
+                    "<cmd>bd!<CR>", { noremap = true, silent = true })
+            end)
+        end,
+    })
+
+    vim.cmd("startinsert")
+end
+
 function M.make_term_to_qf(height)
     height = height or 10
 

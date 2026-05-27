@@ -145,11 +145,27 @@ vim.pack.add({
     { src = "https://github.com/vimwiki/vimwiki" },
 })
 
--- plugins: oil
-require "oil".setup({
+require("oil").setup({
     skip_confirm_for_simple_edits = true,
 })
+
 vim.keymap.set("n", "<leader>e", ":Oil<CR>")
+
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = "oil",
+    callback = function()
+        vim.keymap.set("n", "gx", function()
+            local ok, oil = pcall(require, "oil")
+            if not ok then return end
+            local entry = oil.get_cursor_entry()
+            if not entry then return end
+            local path = oil.get_current_dir() .. entry.name
+            if vim.fn.executable(path) == 1 then
+                require("terminal").run_in_term(path)
+            end
+        end, { buffer = true, desc = "Run executable in terminal" })
+    end,
+})
 
 -- plugins: mason
 require "mason".setup()
