@@ -143,6 +143,7 @@ vim.pack.add({
     { src = "https://github.com/rafikdraoui/jj-diffconflicts" },
     { src = "https://github.com/leafOfTree/vim-svelte-plugin" },
     { src = "https://github.com/vimwiki/vimwiki" },
+    { src = "https://github.com/tpope/vim-obsession" },
 })
 
 require("oil").setup({
@@ -287,3 +288,17 @@ vim.opt.showbreak = "↪ "   -- optional: visual marker for wrapped lines
 vim.keymap.set('n', '0', "v:count == 0 ? 'g0' : '0'", { expr = true })
 vim.keymap.set('n', '$', "v:count == 0 ? 'g$' : '$'", { expr = true })
 vim.keymap.set('n', '^', "v:count == 0 ? 'g^' : '^'", { expr = true })
+
+-- obsession
+vim.api.nvim_create_autocmd("VimEnter", {
+  nested = true,
+  callback = function()
+    if vim.fn.argc() == 0 and vim.fn.filereadable(".session.vim") == 1 then
+      vim.schedule(function()
+        vim.cmd("source .session.vim")
+      end)
+    elseif vim.fn.argc() == 0 then
+      vim.cmd("Obsession .session.vim")
+    end
+  end,
+})
