@@ -132,6 +132,12 @@ vim.lsp.config('ts_ls', with_caps(require('lsp.ts_ls')))
 vim.lsp.enable({"lua_ls", "clangd", "bashls", "tinymist", "gdscript", "ols", "svelte", "ts_ls"})
 
 -- plugins
+
+local repo = vim.fn.expand("~/dev/nvim/nvim-pack-lock.json")
+if vim.fn.exists("&packlockfile") == 1 and vim.fn.filewritable(repo) == 1 then
+    vim.o.packlockfile = repo
+end
+
 vim.pack.add({
     { src = "https://github.com/stevearc/oil.nvim" },
     { src = "https://github.com/mason-org/mason.nvim" },

@@ -5,23 +5,23 @@
       "src": "https://github.com/rafikdraoui/jj-diffconflicts"
     },
     "jj.nvim": {
-      "rev": "f30eefeaf3ce19a045ff12deb065ddb60cf611e5",
+      "rev": "97e404ca8d41b94949cc9b1d07bcabd14c87c42f",
       "src": "https://github.com/nicolasgb/jj.nvim"
     },
     "mason.nvim": {
-      "rev": "16ba83bfc8a25f52bb545134f5bee082b195c460",
+      "rev": "2a6940af80375532e5e9e7c1f2fc6319a1b7a69d",
       "src": "https://github.com/mason-org/mason.nvim"
     },
     "mini.pick": {
-      "rev": "26f94e9c84f529d713de00b900c0a307ca260f35",
+      "rev": "360c1bb33610e030698d07ed15969ab4762dbcd6",
       "src": "https://github.com/nvim-mini/mini.pick"
     },
     "odin.vim": {
-      "rev": "f46cdf509aca0b18b9815462e75b775b5bc237a3",
+      "rev": "b0f916423bba74cf90525db8276dd585de8be637",
       "src": "https://github.com/Tetralux/odin.vim"
     },
     "oil.nvim": {
-      "rev": "b91ee5a77a6a9605d9c1aaf4fda74b66082c8297",
+      "rev": "b73018b75affd13fa38e2fc94ef753b465f770d7",
       "src": "https://github.com/stevearc/oil.nvim"
     },
     "vim-fugitive": {
@@ -29,11 +29,11 @@
       "src": "https://github.com/tpope/vim-fugitive"
     },
     "vim-moonfly-colors": {
-      "rev": "261664f92ed51cf0c077555b2d4b2530307eac17",
+      "rev": "2c883835f5b7b380a0a9e80695c420f7efebdfe4",
       "src": "https://github.com/bluz71/vim-moonfly-colors"
     },
     "vim-obsession": {
-      "rev": "ed9dfc7c2cc917ace8b24f4f9f80a91e05614b63",
+      "rev": "5d63e5b50ebf554d378528e357157c89e91313c9",
       "src": "https://github.com/tpope/vim-obsession"
     },
     "vim-svelte-plugin": {
