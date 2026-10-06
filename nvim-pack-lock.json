@@ -32,10 +32,6 @@
       "rev": "2c883835f5b7b380a0a9e80695c420f7efebdfe4",
       "src": "https://github.com/bluz71/vim-moonfly-colors"
     },
-    "vim-obsession": {
-      "rev": "5d63e5b50ebf554d378528e357157c89e91313c9",
-      "src": "https://github.com/tpope/vim-obsession"
-    },
     "vim-svelte-plugin": {
       "rev": "f80ff67a94e3ac279fe55ecdf55ad7342f4a5228",
       "src": "https://github.com/leafOfTree/vim-svelte-plugin"
